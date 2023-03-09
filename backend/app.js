@@ -2,6 +2,7 @@ require("dotenv").config();
 const connectDB = require("./config/db");
 const express = require("express");
 const app = express();
+const errorMiddleware = require("./middleware/errors");
 
 // Import all routes
 const productRoutes = require("./routes/productRoutes");
@@ -9,6 +10,8 @@ const productRoutes = require("./routes/productRoutes");
 app.use(express.json());
 
 app.use("/api/v1", productRoutes);
+
+app.use(errorMiddleware);
 
 const PORT = process.env.PORT || 5000;
 

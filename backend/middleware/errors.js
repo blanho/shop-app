@@ -29,7 +29,7 @@ const errorHandling = (err, req, res, next) => {
   }
 
   if (process.env.NODE_ENV === "DEVELOPMENT") {
-    res.status(errors.statusCode).json({
+    return res.status(errors.statusCode).json({
       sucess: false,
       error: err,
       errMessage: errors.message,
@@ -37,7 +37,7 @@ const errorHandling = (err, req, res, next) => {
     });
   }
   if (process.env.NODE_ENV === "PRODUCTION") {
-    res.status(errors.statusCode).json({
+    return res.status(errors.statusCode).json({
       sucess: false,
       message: errors.message,
     });

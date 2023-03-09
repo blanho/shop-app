@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node backend/app.js",
     "dev": "SET NODE_ENV=DEVELOPMENT & nodemon backend/app",
-    "prod": "SET NODE_ENV=PRODUCTION & nodemon backend/app"
+    "prod": "SET NODE_ENV=PRODUCTION & nodemon backend/app",
+    "seed": "node backend/utils/seed.js"
   },
   "license": "MIT",
   "dependencies": {

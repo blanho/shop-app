@@ -1,8 +1,16 @@
 const User = require("../models/user");
 
 const catchAsyncError = require("../middleware/catchAsyncErrors");
-const { BadRequest, UnAuthenticated } = require("../errors");
+const {
+  BadRequest,
+  UnAuthenticated,
+  NotFound,
+  CustomError,
+} = require("../errors");
 const sendToken = require("../utils/jwt");
+const sendEmail = require("../utils/sendEmail");
+const crypto = require("crypto");
+const Unauthenticated = require("../errors/UnAuthenticated");
 
 // Register a user => [POST] /api/v1/register
 exports.registerUser = catchAsyncError(async (req, res, next) => {
@@ -39,6 +47,77 @@ exports.loginUser = catchAsyncError(async (req, res, next) => {
   if (!isPasswordMatched) {
     return next(new UnAuthenticated("Invalid Credentials"));
   }
+
+  sendToken(user, 200, res);
+});
+
+// Forgot password => /api/v1/password/forgot
+exports.forgotPassword = catchAsyncError(async (req, res, next) => {
+  const user = await User.findOne({ email: req.body.email });
+
+  if (!user) {
+    return next(new NotFound("User doesnt exist"));
+  }
+
+  //   Get reset token
+  const resetToken = await user.getResetPasswordToken();
+
+  await user.save({ validateBeforeSave: false });
+
+  //   Create reset password url
+  const resetURL = `${req.protocol}://${req.get(
+    "host"
+  )}/api/v1/password/reset/${resetToken}`;
+
+  const message = `Your password reset token is as follow: \n\n${resetURL}\n\nIf you have not requested this email, then ignore it`;
+  console.log("abc  ");
+  try {
+    await sendEmail({
+      email: user.email,
+      subject: "Reset password",
+      message,
+    });
+    res.status(200).json({
+      success: true,
+      message: `Email sent to: ${user.email}`,
+    });
+  } catch (error) {
+    user.resetPasswordToken = undefined;
+    user.resetPasswordExpire = undefined;
+
+    await user.save({ validateBeforeSave: false });
+
+    return next(new CustomError(error.message));
+  }
+});
+
+// Reset password => /api/v1/password/reset/:token
+exports.resetPassword = catchAsyncError(async (req, res, next) => {
+  // Hash URL token
+  const resetPasswordToken = crypto
+    .createHash("sha256")
+    .update(req.params.token)
+    .digest("hex");
+
+  const user = await User.findOne({
+    resetPasswordToken,
+    resetPasswordExpire: { $gt: Date.now() },
+  });
+
+  if (!user) {
+    return next(new BadRequest("Reset password token is invalid"));
+  }
+
+  if (req.body.password !== req.body.confirmPassword) {
+    return next(new Unauthenticated("Password doesnt match"));
+  }
+
+  //   Setup new password
+  user.password = req.body.password;
+  user.resetPasswordToken = undefined;
+  user.resetPasswordExpire = undefined;
+
+  await user.save();
 
   sendToken(user, 200, res);
 });

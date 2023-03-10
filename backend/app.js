@@ -3,12 +3,16 @@ const connectDB = require("./config/db");
 const express = require("express");
 const app = express();
 const errorMiddleware = require("./middleware/errors");
+const cookieParser = require("cookie-parser");
 
 // Import all routes
 const productRoutes = require("./routes/productRoutes");
+const authRoutes = require("./routes/authRoutes");
 
 app.use(express.json());
+app.use(cookieParser());
 
+app.use("/api/v1", authRoutes);
 app.use("/api/v1", productRoutes);
 
 app.use(errorMiddleware);

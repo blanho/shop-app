@@ -2,6 +2,7 @@ const User = require("../models/user");
 
 const catchAsyncError = require("../middleware/catchAsyncErrors");
 const { BadRequest, UnAuthenticated } = require("../errors");
+const sendToken = require("../utils/jwt");
 
 // Register a user => [POST] /api/v1/register
 exports.registerUser = catchAsyncError(async (req, res, next) => {
@@ -18,12 +19,7 @@ exports.registerUser = catchAsyncError(async (req, res, next) => {
     },
   });
 
-  const token = user.getJwtToken();
-
-  res.status(201).json({
-    success: true,
-    token,
-  });
+  sendToken(user, 200, res);
 });
 
 // Login User => /api/v1/login
@@ -44,10 +40,18 @@ exports.loginUser = catchAsyncError(async (req, res, next) => {
     return next(new UnAuthenticated("Invalid Credentials"));
   }
 
-  const token = user.getJwtToken();
+  sendToken(user, 200, res);
+});
+
+// Logout User => /api/v1/logout
+exports.logout = catchAsyncError(async (req, res, next) => {
+  res.cookie("token", null, {
+    expires: new Date(Date.now()),
+    httpOnly: true,
+  });
 
   res.status(200).json({
     success: true,
-    token,
+    message: "Logged out",
   });
 });

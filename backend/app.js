@@ -8,12 +8,14 @@ const cookieParser = require("cookie-parser");
 // Import all routes
 const productRoutes = require("./routes/productRoutes");
 const authRoutes = require("./routes/authRoutes");
+const userRoutes = require("./routes/userRoutes");
 
 app.use(express.json());
 app.use(cookieParser());
 
 app.use("/api/v1", authRoutes);
 app.use("/api/v1", productRoutes);
+app.use("/api/v1", userRoutes);
 
 app.use(errorMiddleware);
 

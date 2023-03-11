@@ -1,6 +1,6 @@
 const { NotFound } = require("../errors");
 const Product = require("../models/product");
-const catchAsyncErrors = require("../middleware/catchAsyncErrors");
+const catchAsyncErrors = require("../utils/catchAsyncErrors");
 const APIFeature = require("../utils/apiFeatures");
 
 // Create new product => [POST] /api/v1/admin/products/new

@@ -1,5 +1,5 @@
 const { UnAuthenticated, Unauthorized } = require("../errors");
-const catchAsyncErrors = require("./catchAsyncErrors");
+const catchAsyncErrors = require("../utils/catchAsyncErrors");
 const jwt = require("jsonwebtoken");
 const User = require("../models/user");
 

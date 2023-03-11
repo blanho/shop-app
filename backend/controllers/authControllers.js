@@ -1,6 +1,6 @@
 const User = require("../models/user");
 
-const catchAsyncError = require("../middleware/catchAsyncErrors");
+const catchAsyncError = require("../utils/catchAsyncErrors");
 const {
   BadRequest,
   UnAuthenticated,

@@ -1,5 +1,5 @@
 const { BadRequest, NotFound } = require("../errors");
-const catchAsyncErrors = require("../middleware/catchAsyncErrors");
+const catchAsyncErrors = require("../utils/catchAsyncErrors");
 const User = require("../models/user");
 const sendToken = require("../utils/jwt");
 // Get currently logged in user details => [GET] /api/v1/me

@@ -5,9 +5,11 @@
   "author": "blanho <h.baolan20025@gmail.com>",
   "scripts": {
     "start": "node backend/app.js",
-    "dev": "SET NODE_ENV=DEVELOPMENT & nodemon backend/app",
+    "server": "nodemon backend/app.js",
     "prod": "SET NODE_ENV=PRODUCTION & nodemon backend/app",
-    "seed": "node backend/utils/seed.js"
+    "client": "yarn start --prefix frontend",
+    "seed": "node backend/utils/seed.js",
+    "dev": "concurrently \"yarn run server\" \"yarn run client\""
   },
   "license": "MIT",
   "dependencies": {
@@ -23,6 +25,7 @@
     "validator": "^13.9.0"
   },
   "devDependencies": {
+    "concurrently": "^7.6.0",
     "nodemon": "^2.0.21"
   }
 }

@@ -32,7 +32,7 @@ const errorHandling = (err, req, res, next) => {
     return res.status(errors.statusCode).json({
       sucess: false,
       error: err,
-      errMessage: errors.message,
+      message: errors.message,
       stack: err.stack,
     });
   }

@@ -19,6 +19,7 @@ export const getProducts = () => async (dispatch) => {
       payload: data,
     });
   } catch (error) {
+    console.log(error.response.data);
     dispatch({
       type: ALL_PRODUCTS_FAIL,
       payload: error.response.data.message,

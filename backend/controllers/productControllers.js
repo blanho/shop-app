@@ -1,4 +1,4 @@
-const { NotFound } = require("../errors");
+const { NotFound, BadRequest } = require("../errors");
 const Product = require("../models/product");
 const catchAsyncErrors = require("../utils/catchAsyncErrors");
 const APIFeature = require("../utils/apiFeatures");

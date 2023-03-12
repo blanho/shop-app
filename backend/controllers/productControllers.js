@@ -1,4 +1,4 @@
-const { NotFound } = require("../errors");
+const { NotFound, BadRequest } = require("../errors");
 const Product = require("../models/product");
 const catchAsyncErrors = require("../utils/catchAsyncErrors");
 const APIFeature = require("../utils/apiFeatures");
@@ -17,7 +17,7 @@ exports.newProduct = catchAsyncErrors(async (req, res, next) => {
 // Get all products => [GET] /api/v1/products
 exports.getProducts = catchAsyncErrors(async (req, res, next) => {
   const resPerPage = 4;
-  const productCount = await Product.countDocuments();
+  const productsCount = await Product.countDocuments();
   const apiFeatures = new APIFeature(Product, req.query)
     .search()
     .filter()
@@ -26,8 +26,7 @@ exports.getProducts = catchAsyncErrors(async (req, res, next) => {
 
   res.status(200).json({
     success: true,
-    count: products.length,
-    productCount,
+    productsCount,
     products,
   });
 });

@@ -1,11 +1,13 @@
 import React from "react";
-import { Helmet } from "react-helmet";
+import { Helmet, HelmetProvider } from "react-helmet-async";
 
 const MetaData = ({ title }) => {
   return (
-    <Helmet>
-      <title>{`${title} - Shop App`}</title>
-    </Helmet>
+    <HelmetProvider>
+      <Helmet>
+        <title>{`${title} - Shop App`}</title>
+      </Helmet>
+    </HelmetProvider>
   );
 };
 

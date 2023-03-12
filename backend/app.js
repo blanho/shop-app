@@ -4,6 +4,7 @@ const express = require("express");
 const app = express();
 const errorMiddleware = require("./middleware/errors");
 const cookieParser = require("cookie-parser");
+const morgan = require("morgan");
 
 // Import all routes
 const productRoutes = require("./routes/productRoutes");
@@ -14,6 +15,7 @@ const reviewRoutes = require("./routes/reviewRoutes");
 
 app.use(express.json());
 app.use(cookieParser());
+app.use(morgan("dev"));
 
 app.use("/api/v1", authRoutes);
 app.use("/api/v1", productRoutes);

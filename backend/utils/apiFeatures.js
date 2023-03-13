@@ -24,10 +24,12 @@ class APIFeature {
     removeFields.forEach((el) => delete filterContent[el]);
 
     // Filter price, ratings
-    let queryStr = JSON.stringify(filterContent); // Convert to String
+    let queryStr = JSON.stringify({ ...filterContent }); // Convert to String
+
     queryStr = queryStr.replace(/\b(gt|gte|lt|lte)\b/g, (match) => `$${match}`);
 
     this.query = this.query.find(JSON.parse(queryStr));
+
     return this;
   }
 

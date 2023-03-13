@@ -22,13 +22,17 @@ exports.getProducts = catchAsyncErrors(async (req, res, next) => {
     .search()
     .filter()
     .pagination(resPerPage);
+
   const products = await apiFeatures.query;
+
+  const filteredProductsCount = products.length;
 
   res.status(200).json({
     success: true,
     productsCount,
     products,
     resPerPage,
+    filteredProductsCount,
   });
 });
 

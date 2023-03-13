@@ -1,6 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import ProductDetails from "./ProductDetails";
 
 const Product = ({ product }) => {
   return (
@@ -13,7 +12,7 @@ const Product = ({ product }) => {
         />
         <div className="card-body d-flex flex-column">
           <h5 className="card-title">
-            <Link to={`/products/${product._id}`}>{product.name}</Link>
+            <a href={`/products/${product._id}`}>{product.name}</a>
           </h5>
           <div className="ratings mt-auto">
             <div className="rating-outer">
@@ -25,13 +24,13 @@ const Product = ({ product }) => {
             <span id="no_of_reviews">({product.numofReviews} Reviews)</span>
           </div>
           <p className="card-text">${product.price}</p>
-          <Link
-            to={`/products/${product._id}`}
+          <a
+            href={`/products/${product._id}`}
             id="view_btn"
             className="btn btn-block"
           >
             View Details
-          </Link>
+          </a>
         </div>
       </div>
     </div>

@@ -1,4 +1,5 @@
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment, useEffect, useState } from "react";
+import Pagination from "react-js-pagination";
 
 import MetaData from "./layout/MetaData";
 import { useDispatch, useSelector } from "react-redux";
@@ -8,10 +9,12 @@ import Loader from "./layout/Loader";
 import { useAlert } from "react-alert";
 
 const Home = () => {
+  const [currentPage, setCurrentPage] = useState(1);
+
   const dispatch = useDispatch();
   const alert = useAlert();
 
-  const { products, loading, productsCount, error } = useSelector(
+  const { products, loading, productsCount, error, resPerPage } = useSelector(
     (state) => state.products
   );
 
@@ -19,9 +22,12 @@ const Home = () => {
     if (error) {
       return alert.error(error);
     }
-    dispatch(getProducts());
-  }, [dispatch, error, alert]);
+    dispatch(getProducts(currentPage));
+  }, [dispatch, error, alert, currentPage]);
 
+  const setCurrentPageNo = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
   return (
     <Fragment>
       {loading && <Loader />}
@@ -35,6 +41,22 @@ const Home = () => {
             })}
         </div>
       </section>
+      {resPerPage <= productsCount && (
+        <div className="d-flex justify-content-center mt-5">
+          <Pagination
+            activePage={currentPage}
+            itemsCountPerPage={resPerPage}
+            totalItemsCount={productsCount}
+            onChange={setCurrentPageNo}
+            nextPageText={"Next"}
+            prevPageText={"Prev"}
+            firstPageText={"First"}
+            lastPageText={"Last"}
+            itemClass="page-item"
+            linkClass="page-link"
+          />
+        </div>
+      )}
     </Fragment>
   );
 };

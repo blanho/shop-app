@@ -3,6 +3,7 @@ import Footer from "./components/layout/Footer";
 import Home from "./components/Home";
 import ProductDetails from "./components/product/ProductDetails";
 import { BrowserRouter as Router, Route } from "react-router-dom";
+import Login from "./components/user/Login";
 function App() {
   return (
     <Router>
@@ -12,6 +13,8 @@ function App() {
           <Route path="/" component={Home} exact />
           <Route path="/search/:keyword" component={Home} />
           <Route path="/products/:id" component={ProductDetails} exact />
+
+          <Route path="/login" component={Login} />
         </div>
         <Footer />
       </div>

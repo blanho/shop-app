@@ -1,4 +1,5 @@
 const User = require("../models/user");
+const cloudinary = require("cloudinary").v2;
 
 const catchAsyncError = require("../utils/catchAsyncErrors");
 const {
@@ -16,14 +17,21 @@ const Unauthenticated = require("../errors/UnAuthenticated");
 exports.registerUser = catchAsyncError(async (req, res, next) => {
   const { name, email, password } = req.body;
 
+  // Todo: Handle an existing user
+  const result = await cloudinary.uploader.upload(req.body.avatar, {
+    folder: "shop/users",
+    width: 150,
+    crop: "scale",
+  });
+  console.log(result);
+
   const user = await User.create({
     name,
     email,
     password,
     avatar: {
-      public_id:
-        "shop/users/24-248253_user-profile-default-image-png-clipart-png-download_y7mexg",
-      url: "https://res.cloudinary.com/dg6qyxc0a/image/upload/v1678416285/shop/users/24-248253_user-profile-default-image-png-clipart-png-download_y7mexg.png",
+      public_id: result.public_id,
+      url: result.secure_url,
     },
   });
 

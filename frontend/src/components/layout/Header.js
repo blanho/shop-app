@@ -1,8 +1,13 @@
 import React, { Fragment } from "react";
 import { Route } from "react-router-dom";
 import Search from "./Search";
-
+import { useAlert } from "react-alert";
+import { useDispatch, useSelector } from "react-redux";
 const Header = () => {
+  const alet = useAlert();
+  const dispatch = useDispatch();
+
+  const { user, loading } = useSelector((state) => state.auth);
   return (
     <Fragment>
       <nav className="navbar row">
@@ -19,16 +24,62 @@ const Header = () => {
         </div>
 
         <div className="col-12 col-md-3 mt-4 mt-md-0 text-center">
-          <a href="/login" className="btn ml-4" id="login_btn">
-            Login
+          <a href="/cart" style={{ textDecoration: "none" }}>
+            <span id="cart" className="ml-3">
+              Cart
+            </span>
+            <span className="ml-1" id="cart_count">
+              2
+            </span>
           </a>
-
-          <span id="cart" className="ml-3">
-            Cart
-          </span>
-          <span className="ml-1" id="cart_count">
-            2
-          </span>
+          {user ? (
+            <div className="ml-4 dropdown d-inline">
+              <a
+                href="!#"
+                className="btn dropdown-toggle text-white"
+                type="button"
+                id="dropDownMenuButton"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
+                <figure className="avatar avatar-nav">
+                  <img
+                    src={user.avatar && user.avatar.url}
+                    alt={user && user.name}
+                    className="rounded-circle"
+                  />
+                </figure>
+                <span>{user && user.name}</span>
+              </a>
+              <div
+                className="dropdown-menu"
+                aria-labelledby="dropDownMenuButton"
+              >
+                {user && user.role !== "admin" ? (
+                  <a className="dropdown-item text-danger" href="/orders/me">
+                    Orders
+                  </a>
+                ) : (
+                  <a className="dropdown-item text-danger" href="/dashboard">
+                    Dashboard
+                  </a>
+                )}
+                <a className="dropdown-item text-danger" href="/me">
+                  Profile
+                </a>
+                <a className="dropdrown-item text-danger" href="/">
+                  Logout
+                </a>
+              </div>
+            </div>
+          ) : (
+            !loading && (
+              <a href="/login" className="btn ml-4" id="login_btn">
+                Login
+              </a>
+            )
+          )}
         </div>
       </nav>
     </Fragment>

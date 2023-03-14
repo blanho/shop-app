@@ -3,9 +3,15 @@ import { Route } from "react-router-dom";
 import Search from "./Search";
 import { useAlert } from "react-alert";
 import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../../actions/userActions";
 const Header = () => {
-  const alet = useAlert();
+  const alert = useAlert();
   const dispatch = useDispatch();
+
+  const logoutHandler = () => {
+    dispatch(logout());
+    alert.success("Logged out successfully");
+  };
 
   const { user, loading } = useSelector((state) => state.auth);
   return (
@@ -68,7 +74,11 @@ const Header = () => {
                 <a className="dropdown-item text-danger" href="/me">
                   Profile
                 </a>
-                <a className="dropdrown-item text-danger" href="/">
+                <a
+                  className="dropdown-item text-danger"
+                  href="/"
+                  onClick={logoutHandler}
+                >
                   Logout
                 </a>
               </div>

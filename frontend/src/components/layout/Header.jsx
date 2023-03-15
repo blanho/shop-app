@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-import { Route } from "react-router-dom";
+import { Link, Route } from "react-router-dom";
 import Search from "./Search";
 import { useAlert } from "react-alert";
 import { useDispatch, useSelector } from "react-redux";
@@ -40,9 +40,9 @@ const Header = () => {
           </a>
           {user ? (
             <div className="ml-4 dropdown d-inline">
-              <a
-                href="!#"
-                className="btn dropdown-toggle text-white"
+              <Link
+                to="#!"
+                className="btn dropdown-toggle text-white mr-4"
                 type="button"
                 id="dropDownMenuButton"
                 data-toggle="dropdown"
@@ -57,7 +57,7 @@ const Header = () => {
                   />
                 </figure>
                 <span>{user && user.name}</span>
-              </a>
+              </Link>
               <div
                 className="dropdown-menu"
                 aria-labelledby="dropDownMenuButton"

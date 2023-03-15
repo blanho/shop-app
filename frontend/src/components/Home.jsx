@@ -8,6 +8,7 @@ import { getProducts } from "../actions/productActions";
 import Product from "./product/Product";
 import Loader from "./layout/Loader";
 import { useAlert } from "react-alert";
+import { useParams } from "react-router-dom";
 
 const Home = ({ match }) => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -27,7 +28,7 @@ const Home = ({ match }) => {
     filteredProductsCount,
   } = useSelector((state) => state.products);
 
-  const keyword = match.params.keyword;
+  const { keyword } = useParams();
   const categories = [
     "Electronics",
     "Cameras",

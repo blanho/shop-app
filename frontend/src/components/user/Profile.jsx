@@ -1,10 +1,12 @@
 import React, { Fragment } from "react";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import Loader from "../layout/Loader";
 import MetaData from "../layout/MetaData";
 
 const Profile = () => {
   const { user, loading } = useSelector((state) => state.auth);
+  console.log(user);
   return (
     <Fragment>
       {loading && <Loader />}
@@ -16,7 +18,7 @@ const Profile = () => {
             <img
               className="rounded-circle img-fluid"
               src={user && user.avatar && user.avatar.url}
-              alt={user.name}
+              alt={user && user.name}
             />
           </figure>
           <a
@@ -30,19 +32,22 @@ const Profile = () => {
 
         <div className="col-12 col-md-5">
           <h4>Full Name</h4>
-          <p>{user.name}</p>
+          <p>{user && user.name}</p>
           <h4>Email Address</h4>
-          <p>{user.email}</p>
+          <p>{user && user.email}</p>
           <h4>Joined on</h4>
-          <p>{String(user.createdAt).substring(0, 10)}</p>
-          {user.role !== "admin"} && (
-          <a href="/orders/me" className="btn btn-danger btn-block mt-5">
-            My Orders
-          </a>
-          )
-          <a href="/password/update" className="btn btn-primary btn-block mt-3">
+          <p>{user && String(user.createdAt).substring(0, 10)}</p>
+          {user && user.role !== "admin" && (
+            <Link href="/orders/me" className="btn btn-danger btn-block mt-5">
+              My Orders
+            </Link>
+          )}
+          <Link
+            href="/password/update"
+            className="btn btn-primary btn-block mt-3"
+          >
             Change Password
-          </a>
+          </Link>
         </div>
       </div>
     </Fragment>

@@ -4,7 +4,8 @@ import MetaData from "../layout/MetaData";
 import Loader from "../layout/Loader";
 import { useAlert } from "react-alert";
 import { clearErrors, register } from "../../actions/userActions";
-const Register = ({ history }) => {
+import { useNavigate } from "react-router-dom";
+const Register = () => {
   const [user, setUser] = useState({
     name: "",
     email: "",
@@ -12,11 +13,11 @@ const Register = ({ history }) => {
   });
 
   const { name, email, password } = user;
-
   const [avatar, setAvatar] = useState("");
   const [avatarPreview, setAvatarPreview] = useState("/images/camera.jpg");
   const alert = useAlert();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const { isAuthenticated, error, loading } = useSelector(
     (state) => state.auth
@@ -24,13 +25,13 @@ const Register = ({ history }) => {
 
   useEffect(() => {
     if (isAuthenticated) {
-      history.push("/");
+      navigate("/");
     }
     if (error) {
       alert.error(error);
       dispatch(clearErrors());
     }
-  }, [dispatch, alert, isAuthenticated, error, history]);
+  }, [dispatch, alert, isAuthenticated, error, navigate]);
 
   const submitHandler = (e) => {
     e.preventDefault();

@@ -11,6 +11,7 @@ import { useEffect } from "react";
 import Profile from "./components/user/Profile";
 import ProtectedRoute from "./components/route/ProtectedRoute";
 import UpdateProfile from "./components/user/UpdateProfile";
+import UpdatePassword from "./components/user/UpdatePassword";
 
 function App() {
   useEffect(() => {
@@ -18,10 +19,8 @@ function App() {
   }, []);
   return (
     <Router>
-      {/* <div className="App"> */}
       <Header />
       <Routes>
-        {/* <div className="container container-fluid"> */}
         <Route path="/" element={<Home />} index />
         <Route path="/search/:keyword" element={<Home />} />
         <Route path="/products/:id" element={<ProductDetails />} />
@@ -44,10 +43,16 @@ function App() {
             </ProtectedRoute>
           }
         />
-        {/* </div> */}
+        <Route
+          path="/password/update"
+          element={
+            <ProtectedRoute>
+              <UpdatePassword />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
       <Footer />
-      {/* </div> */}
     </Router>
   );
 }

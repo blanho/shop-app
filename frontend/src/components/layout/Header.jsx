@@ -19,9 +19,9 @@ const Header = () => {
       <nav className="navbar row">
         <div className="col-12 col-md-3">
           <div className="navbar-brand">
-            <a href="/">
+            <Link to="/">
               <img src="./images/logo.png" alt="" />
-            </a>
+            </Link>
           </div>
         </div>
 
@@ -30,14 +30,14 @@ const Header = () => {
         </div>
 
         <div className="col-12 col-md-3 mt-4 mt-md-0 text-center">
-          <a href="/cart" style={{ textDecoration: "none" }}>
+          <Link to="/cart" style={{ textDecoration: "none" }}>
             <span id="cart" className="ml-3">
               Cart
             </span>
             <span className="ml-1" id="cart_count">
               2
             </span>
-          </a>
+          </Link>
           {user ? (
             <div className="ml-4 dropdown d-inline">
               <Link
@@ -63,31 +63,31 @@ const Header = () => {
                 aria-labelledby="dropDownMenuButton"
               >
                 {user && user.role !== "admin" ? (
-                  <a className="dropdown-item text-danger" href="/orders/me">
+                  <Link className="dropdown-item text-danger" to="/orders/me">
                     Orders
-                  </a>
+                  </Link>
                 ) : (
-                  <a className="dropdown-item text-danger" href="/dashboard">
+                  <Link className="dropdown-item text-danger" to="/dashboard">
                     Dashboard
-                  </a>
+                  </Link>
                 )}
-                <a className="dropdown-item text-danger" href="/me">
+                <Link className="dropdown-item text-danger" to="/me">
                   Profile
-                </a>
-                <a
+                </Link>
+                <Link
                   className="dropdown-item text-danger"
-                  href="/"
+                  to="/"
                   onClick={logoutHandler}
                 >
                   Logout
-                </a>
+                </Link>
               </div>
             </div>
           ) : (
             !loading && (
-              <a href="/login" className="btn ml-4" id="login_btn">
+              <Link to="/login" className="btn ml-4" id="login_btn">
                 Login
-              </a>
+              </Link>
             )
           )}
         </div>

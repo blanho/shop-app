@@ -14,6 +14,9 @@ import {
   UPDATE_PROFILE_REQUEST,
   UPDATE_PROFILE_SUCCESS,
   UPDATE_PROFILE_FAIL,
+  UPDATE_PASSWORD_REQUEST,
+  UPDATE_PASSWORD_SUCCESS,
+  UPDATE_PASSWORD_FAIL,
 } from "../constants/userConstants";
 import axios from "axios";
 
@@ -113,6 +116,32 @@ export const updateProfile = (userData) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: UPDATE_PROFILE_FAIL,
+      payload: error.response.data.message,
+    });
+  }
+};
+
+// Update password
+export const updatePassword = (password) => async (dispatch) => {
+  try {
+    dispatch({ type: UPDATE_PASSWORD_REQUEST });
+
+    const config = {
+      header: {
+        "Content-Type": "application/json",
+      },
+    };
+
+    const { data } = await axios.put(
+      "/api/v1/password/update",
+      password,
+      config
+    );
+
+    dispatch({ type: UPDATE_PASSWORD_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({
+      type: UPDATE_PASSWORD_FAIL,
       payload: error.response.data.message,
     });
   }

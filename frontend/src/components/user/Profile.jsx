@@ -41,15 +41,12 @@ const Profile = () => {
               <h4>Joined on</h4>
               <p>{String(user.createdAt).substring(0, 10)}</p>
               {user.role !== "admin" && (
-                <Link
-                  href="/orders/me"
-                  className="btn btn-danger btn-block mt-5"
-                >
+                <Link to="/orders/me" className="btn btn-danger btn-block mt-5">
                   My Orders
                 </Link>
               )}
               <Link
-                href="/password/update"
+                to="/password/update"
                 className="btn btn-primary btn-block mt-3"
               >
                 Change Password

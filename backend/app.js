@@ -15,6 +15,7 @@ const authRoutes = require("./routes/authRoutes");
 const userRoutes = require("./routes/userRoutes");
 const orderRoutes = require("./routes/orderRoutes");
 const reviewRoutes = require("./routes/reviewRoutes");
+const paymentRoutes = require("./routes/paymentRoutes");
 
 app.use(express.json());
 app.use(bodyparser.urlencoded({ extended: true }));
@@ -34,6 +35,7 @@ app.use("/api/v1", productRoutes);
 app.use("/api/v1", userRoutes);
 app.use("/api/v1", orderRoutes);
 app.use("/api/v1", reviewRoutes);
+app.use("/api/v1", paymentRoutes);
 
 app.use(errorMiddleware);
 

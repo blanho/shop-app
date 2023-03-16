@@ -27,13 +27,13 @@ const ConfirmOrder = () => {
     };
 
     sessionStorage.setItem("orderInfo", JSON.stringify(data));
-    navigate("/");
+    navigate("/payment");
   };
 
   return (
     <Fragment className="container container-fluid">
       <MetaData title={"Confirm Order"} />
-      <CheckoutSteps confirmOrder />
+      <CheckoutSteps shipping confirmOrder />
       <div className="row d-flex justify-content-between">
         <div className="col-12 col-lg-8 mt-5 order-confirm">
           <h4 className="mb-3">Shipping Info</h4>

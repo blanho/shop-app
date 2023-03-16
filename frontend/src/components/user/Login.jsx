@@ -4,12 +4,14 @@ import MetaData from "../layout/MetaData";
 import Loader from "../layout/Loader";
 import { useAlert } from "react-alert";
 import { clearErrors, login } from "../../actions/userActions";
+import { Link, useNavigate } from "react-router-dom";
 
-const Login = ({ history }) => {
+const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const alert = useAlert();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const { isAuthenticated, error, loading } = useSelector(
     (state) => state.auth
@@ -17,13 +19,13 @@ const Login = ({ history }) => {
 
   useEffect(() => {
     if (isAuthenticated) {
-      history.push("/");
+      navigate("/");
     }
     if (error) {
       alert.error(error);
       dispatch(clearErrors());
     }
-  }, [dispatch, alert, isAuthenticated, error, history]);
+  }, [dispatch, alert, isAuthenticated, error, navigate]);
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -60,9 +62,9 @@ const Login = ({ history }) => {
                 />
               </div>
 
-              <a href="/password/forgot" className="float-right mb-4">
+              <Link to="/password/forgot" className="float-right mb-4">
                 Forgot Password?
-              </a>
+              </Link>
 
               <button
                 id="login_button"
@@ -72,9 +74,9 @@ const Login = ({ history }) => {
                 LOGIN
               </button>
 
-              <a href="/register" className="float-right mt-3">
+              <Link to="/register" className="float-right mt-3">
                 New User?
-              </a>
+              </Link>
             </form>
           </div>
         </div>

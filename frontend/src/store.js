@@ -5,12 +5,18 @@ import {
   productsReducer,
   productDetailsReducer,
 } from "./reducers/productReducers";
-import { authReducer } from "./reducers/userReducers";
+import {
+  authReducer,
+  forgotPasswordReducer,
+  userReducer,
+} from "./reducers/userReducers";
 
 const reducer = combineReducers({
   products: productsReducer,
   productDetails: productDetailsReducer,
   auth: authReducer,
+  user: userReducer,
+  forgotPassword: forgotPasswordReducer,
 });
 
 let initialState = {};

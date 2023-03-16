@@ -20,7 +20,7 @@ app.use(express.json());
 app.use(bodyparser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(fileUpload());
-app.use(morgan("dev"));
+app.use(morgan());
 
 // Setting up cloudinary configuration
 cloudinary.config({

@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-import { Route } from "react-router-dom";
+import { Link, Route } from "react-router-dom";
 import Search from "./Search";
 import { useAlert } from "react-alert";
 import { useDispatch, useSelector } from "react-redux";
@@ -19,30 +19,30 @@ const Header = () => {
       <nav className="navbar row">
         <div className="col-12 col-md-3">
           <div className="navbar-brand">
-            <a href="/">
+            <Link to="/">
               <img src="./images/logo.png" alt="" />
-            </a>
+            </Link>
           </div>
         </div>
 
         <div className="col-12 col-md-6 mt-2 mt-md-0">
-          <Route render={({ history }) => <Search history={history} />} />
+          <Search />
         </div>
 
         <div className="col-12 col-md-3 mt-4 mt-md-0 text-center">
-          <a href="/cart" style={{ textDecoration: "none" }}>
+          <Link to="/cart" style={{ textDecoration: "none" }}>
             <span id="cart" className="ml-3">
               Cart
             </span>
             <span className="ml-1" id="cart_count">
               2
             </span>
-          </a>
+          </Link>
           {user ? (
             <div className="ml-4 dropdown d-inline">
-              <a
-                href="!#"
-                className="btn dropdown-toggle text-white"
+              <Link
+                to="#!"
+                className="btn dropdown-toggle text-white mr-4"
                 type="button"
                 id="dropDownMenuButton"
                 data-toggle="dropdown"
@@ -57,37 +57,37 @@ const Header = () => {
                   />
                 </figure>
                 <span>{user && user.name}</span>
-              </a>
+              </Link>
               <div
                 className="dropdown-menu"
                 aria-labelledby="dropDownMenuButton"
               >
                 {user && user.role !== "admin" ? (
-                  <a className="dropdown-item text-danger" href="/orders/me">
+                  <Link className="dropdown-item text-danger" to="/orders/me">
                     Orders
-                  </a>
+                  </Link>
                 ) : (
-                  <a className="dropdown-item text-danger" href="/dashboard">
+                  <Link className="dropdown-item text-danger" to="/dashboard">
                     Dashboard
-                  </a>
+                  </Link>
                 )}
-                <a className="dropdown-item text-danger" href="/me">
+                <Link className="dropdown-item text-danger" to="/me">
                   Profile
-                </a>
-                <a
+                </Link>
+                <Link
                   className="dropdown-item text-danger"
-                  href="/"
+                  to="/"
                   onClick={logoutHandler}
                 >
                   Logout
-                </a>
+                </Link>
               </div>
             </div>
           ) : (
             !loading && (
-              <a href="/login" className="btn ml-4" id="login_btn">
+              <Link to="/login" className="btn ml-4" id="login_btn">
                 Login
-              </a>
+              </Link>
             )
           )}
         </div>

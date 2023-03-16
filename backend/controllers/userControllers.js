@@ -2,6 +2,7 @@ const { BadRequest, NotFound } = require("../errors");
 const catchAsyncErrors = require("../utils/catchAsyncErrors");
 const User = require("../models/user");
 const sendToken = require("../utils/jwt");
+const cloudinary = require("cloudinary").v2;
 // Get currently logged in user details => [GET] /api/v1/me
 exports.getUserProfile = catchAsyncErrors(async (req, res, next) => {
   const user = await User.findById(req.user.id);
@@ -21,7 +22,7 @@ exports.updatePassword = catchAsyncErrors(async (req, res, next) => {
     return next(new BadRequest("Password is incorrect"));
   }
 
-  user.password = req.body.password;
+  user.password = req.body.newPassword;
   await user.save();
 
   sendToken(user, 200, res);
@@ -35,6 +36,24 @@ exports.updateProfile = catchAsyncErrors(async (req, res, next) => {
   };
 
   //   Update avatar: ToDO
+  if (req.body.avatar !== "") {
+    const user = await User.findById(req.user.id);
+
+    const image_id = user.avatar.public_id;
+    const res = await cloudinary.uploader.destroy(image_id);
+
+    const result = await cloudinary.uploader.upload(req.body.avatar, {
+      folder: "shop/users",
+      width: 150,
+      crop: "scale",
+    });
+
+    newUserData.avatar = {
+      public_id: result.public_id,
+      url: result.secure_url,
+    };
+  }
+
   const user = await User.findByIdAndUpdate(req.user.id, newUserData, {
     new: true,
     runValidators: true,

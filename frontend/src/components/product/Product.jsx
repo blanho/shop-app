@@ -24,13 +24,13 @@ const Product = ({ product, col }) => {
             <span id="no_of_reviews">({product.numofReviews} Reviews)</span>
           </div>
           <p className="card-text">${product.price}</p>
-          <a
-            href={`/products/${product._id}`}
+          <Link
+            to={`/products/${product._id}`}
             id="view_btn"
             className="btn btn-block"
           >
             View Details
-          </a>
+          </Link>
         </div>
       </div>
     </div>

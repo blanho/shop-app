@@ -5,10 +5,11 @@ import { useAlert } from "react-alert";
 import { Carousel } from "react-bootstrap";
 import MetaData from "../layout/MetaData";
 import Loader from "../layout/Loader";
+import { useParams } from "react-router-dom";
 const ProductDetails = ({ match }) => {
   const dispatch = useDispatch();
   const alert = useAlert();
-  const productId = match.params.id;
+  const { id: productId } = useParams();
   const { product, loading, error } = useSelector(
     (state) => state.productDetails
   );

@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { clearErrors, getProductDetails } from "../../actions/productActions";
 import { useAlert } from "react-alert";
@@ -6,8 +6,10 @@ import { Carousel } from "react-bootstrap";
 import MetaData from "../layout/MetaData";
 import Loader from "../layout/Loader";
 import { useParams } from "react-router-dom";
+import { addItemToCart } from "../../actions/cartActions";
 const ProductDetails = ({ match }) => {
   const dispatch = useDispatch();
+  let [qty, setQty] = useState(1);
   const alert = useAlert();
   const { id: productId } = useParams();
   const { product, loading, error } = useSelector(
@@ -20,157 +22,184 @@ const ProductDetails = ({ match }) => {
     }
     dispatch(getProductDetails(productId));
   }, [dispatch, alert, error, productId]);
+
+  const increaseQty = () => {
+    if (qty >= product.stock) {
+      return;
+    }
+    setQty((prev) => prev + 1);
+  };
+
+  const decreaseQty = () => {
+    if (qty <= 1) {
+      return;
+    }
+    setQty((prev) => prev - 1);
+  };
+
+  const addToCart = () => {
+    dispatch(addItemToCart(productId, qty));
+    alert.success("Item Added to Cart");
+  };
+
   return (
     <Fragment>
       <MetaData title={product.name} />
-      <div className="row f-flex justify-content-around">
-        {loading && <Loader />}
-        <div className="col-12 col-lg-5 img-fluid" id="product_image">
-          <Carousel pause="hover">
-            {product.images &&
-              product.images.map((image) => {
-                return (
-                  <Carousel.Item key={image.public_id}>
-                    <img src={image.url} alt={product.name} />
-                  </Carousel.Item>
-                );
-              })}
-          </Carousel>
-        </div>
+      {!loading ? (
+        <Fragment>
+          <div className="row f-flex justify-content-around">
+            {loading && <Loader />}
+            <div className="col-12 col-lg-5 img-fluid" id="product_image">
+              <Carousel pause="hover">
+                {product.images &&
+                  product.images.map((image) => {
+                    return (
+                      <Carousel.Item key={image.public_id}>
+                        <img src={image.url} alt={product.name} />
+                      </Carousel.Item>
+                    );
+                  })}
+              </Carousel>
+            </div>
 
-        <div className="col-12 col-lg-5 mt-5">
-          <h3>{product.name}</h3>
-          <p id="product_id">Product # {product._id}</p>
+            <div className="col-12 col-lg-5 mt-5">
+              <h3>{product.name}</h3>
+              <p id="product_id">Product # {product._id}</p>
 
-          <hr />
+              <hr />
 
-          <div className="rating-outer">
-            <div
-              className="rating-inner"
-              style={{ width: `${(product.ratings / 5) * 100}%` }}
-            ></div>
-          </div>
-          <span id="no_of_reviews">({product.numOfReviews} Reviews)</span>
+              <div className="rating-outer">
+                <div
+                  className="rating-inner"
+                  style={{ width: `${(product.ratings / 5) * 100}%` }}
+                ></div>
+              </div>
+              <span id="no_of_reviews">({product.numofReviews} Reviews)</span>
 
-          <hr />
+              <hr />
 
-          <p id="product_price">${product.price}</p>
-          <div className="stockCounter d-inline">
-            <span className="btn btn-danger minus">-</span>
+              <p id="product_price">${product.price}</p>
+              <div className="stockCounter d-inline">
+                <span className="btn btn-danger minus" onClick={decreaseQty}>
+                  -
+                </span>
 
-            <input
-              type="number"
-              className="form-control count d-inline"
-              value="1"
-              readOnly
-            />
+                <span>{qty}</span>
 
-            <span className="btn btn-primary plus">+</span>
-          </div>
-          <button
-            type="button"
-            id="cart_btn"
-            className="btn btn-primary d-inline ml-4"
-          >
-            Add to Cart
-          </button>
-
-          <hr />
-
-          <p>
-            Status:{" "}
-            <span
-              id="stock_status"
-              className={product.stock > 0 ? "greenColor" : "redColor"}
-            >
-              {product.stock > 0 ? "In Stock" : "Out of Stock"}
-            </span>
-          </p>
-
-          <hr />
-
-          <h4 className="mt-2">Description:</h4>
-          <p>{product.description}</p>
-          <hr />
-          <p id="product_seller mb-3">
-            Sold by: <strong>{product.seller}</strong>
-          </p>
-
-          <button
-            id="review_btn"
-            type="button"
-            className="btn btn-primary mt-4"
-            data-toggle="modal"
-            data-target="#ratingModal"
-          >
-            Submit Your Review
-          </button>
-
-          <div className="row mt-2 mb-5">
-            <div className="rating w-50">
-              <div
-                className="modal fade"
-                id="ratingModal"
-                tabIndex="-1"
-                role="dialog"
-                aria-labelledby="ratingModalLabel"
-                aria-hidden="true"
+                <span className="btn btn-primary plus" onClick={increaseQty}>
+                  +
+                </span>
+              </div>
+              <button
+                type="button"
+                id="cart_btn"
+                className="btn btn-primary d-inline ml-4"
+                disabled={product.stock === 0}
+                onClick={addToCart}
               >
-                <div className="modal-dialog" role="document">
-                  <div className="modal-content">
-                    <div className="modal-header">
-                      <h5 className="modal-title" id="ratingModalLabel">
-                        Submit Review
-                      </h5>
-                      <button
-                        type="button"
-                        className="close"
-                        data-dismiss="modal"
-                        aria-label="Close"
-                      >
-                        <span aria-hidden="true">&times;</span>
-                      </button>
-                    </div>
-                    <div className="modal-body">
-                      <ul className="stars">
-                        <li className="star">
-                          <i className="fa fa-star"></i>
-                        </li>
-                        <li className="star">
-                          <i className="fa fa-star"></i>
-                        </li>
-                        <li className="star">
-                          <i className="fa fa-star"></i>
-                        </li>
-                        <li className="star">
-                          <i className="fa fa-star"></i>
-                        </li>
-                        <li className="star">
-                          <i className="fa fa-star"></i>
-                        </li>
-                      </ul>
+                Add to Cart
+              </button>
 
-                      <textarea
-                        name="review"
-                        id="review"
-                        className="form-control mt-3"
-                      ></textarea>
+              <hr />
 
-                      <button
-                        className="btn my-3 float-right review-btn px-4 text-white"
-                        data-dismiss="modal"
-                        aria-label="Close"
-                      >
-                        Submit
-                      </button>
+              <p>
+                Status:{" "}
+                <span
+                  id="stock_status"
+                  className={product.stock > 0 ? "greenColor" : "redColor"}
+                >
+                  {product.stock > 0 ? "In Stock" : "Out of Stock"}
+                </span>
+              </p>
+
+              <hr />
+
+              <h4 className="mt-2">Description:</h4>
+              <p>{product.description}</p>
+              <hr />
+              <p id="product_seller mb-3">
+                Sold by: <strong>{product.seller}</strong>
+              </p>
+
+              <button
+                id="review_btn"
+                type="button"
+                className="btn btn-primary mt-4"
+                data-toggle="modal"
+                data-target="#ratingModal"
+              >
+                Submit Your Review
+              </button>
+
+              <div className="row mt-2 mb-5">
+                <div className="rating w-50">
+                  <div
+                    className="modal fade"
+                    id="ratingModal"
+                    tabIndex="-1"
+                    role="dialog"
+                    aria-labelledby="ratingModalLabel"
+                    aria-hidden="true"
+                  >
+                    <div className="modal-dialog" role="document">
+                      <div className="modal-content">
+                        <div className="modal-header">
+                          <h5 className="modal-title" id="ratingModalLabel">
+                            Submit Review
+                          </h5>
+                          <button
+                            type="button"
+                            className="close"
+                            data-dismiss="modal"
+                            aria-label="Close"
+                          >
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div className="modal-body">
+                          <ul className="stars">
+                            <li className="star">
+                              <i className="fa fa-star"></i>
+                            </li>
+                            <li className="star">
+                              <i className="fa fa-star"></i>
+                            </li>
+                            <li className="star">
+                              <i className="fa fa-star"></i>
+                            </li>
+                            <li className="star">
+                              <i className="fa fa-star"></i>
+                            </li>
+                            <li className="star">
+                              <i className="fa fa-star"></i>
+                            </li>
+                          </ul>
+
+                          <textarea
+                            name="review"
+                            id="review"
+                            className="form-control mt-3"
+                          ></textarea>
+
+                          <button
+                            className="btn my-3 float-right review-btn px-4 text-white"
+                            data-dismiss="modal"
+                            aria-label="Close"
+                          >
+                            Submit
+                          </button>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </div>
+        </Fragment>
+      ) : (
+        <Loader />
+      )}
     </Fragment>
   );
 };

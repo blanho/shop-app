@@ -5,12 +5,13 @@ import { useAlert } from "react-alert";
 import { Carousel } from "react-bootstrap";
 import MetaData from "../layout/MetaData";
 import Loader from "../layout/Loader";
-import { useParams } from "react-router-dom";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { addItemToCart } from "../../actions/cartActions";
 const ProductDetails = ({ match }) => {
   const dispatch = useDispatch();
   let [qty, setQty] = useState(1);
   const alert = useAlert();
+  const navigate = useNavigate();
   const { id: productId } = useParams();
   const { product, loading, error } = useSelector(
     (state) => state.productDetails
@@ -40,6 +41,7 @@ const ProductDetails = ({ match }) => {
   const addToCart = () => {
     dispatch(addItemToCart(productId, qty));
     alert.success("Item Added to Cart");
+    navigate("/cart");
   };
 
   return (

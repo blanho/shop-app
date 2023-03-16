@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { saveShippingInfo } from "../../actions/cartActions";
 import { countries } from "countries-list";
 import MetaData from "../layout/MetaData";
+import CheckoutSteps from "./CheckoutSteps";
 
 const Shipping = () => {
   const { shippingInfo } = useSelector((state) => state.cart);
@@ -21,12 +22,13 @@ const Shipping = () => {
   const submitHandler = (e) => {
     e.preventDefault();
     dispatch(saveShippingInfo({ address, city, postalCode, phoneNo, country }));
-    navigate("/confirm");
+    navigate("/order/confirm");
   };
 
   return (
-    <Fragment>
+    <Fragment className="container-container-fluid">
       <MetaData title={"Shipping Info"} />
+      <CheckoutSteps shipping />
       <div className="row wrapper">
         <div className="col-10 col-lg-5">
           <form className="shadow-lg" onSubmit={submitHandler}>

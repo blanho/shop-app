@@ -31,7 +31,7 @@ const ConfirmOrder = () => {
   };
 
   return (
-    <Fragment className="container container-fluid">
+    <Fragment>
       <MetaData title={"Confirm Order"} />
       <CheckoutSteps shipping confirmOrder />
       <div className="row d-flex justify-content-between">

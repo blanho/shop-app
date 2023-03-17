@@ -1,6 +1,6 @@
 import React, { Fragment, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { saveShippingInfo } from "../../actions/cartActions";
 import { countries } from "countries-list";
 import MetaData from "../layout/MetaData";
@@ -26,7 +26,7 @@ const Shipping = () => {
   };
 
   return (
-    <Fragment className="container-container-fluid">
+    <Fragment>
       <MetaData title={"Shipping Info"} />
       <CheckoutSteps shipping />
       <div className="row wrapper">

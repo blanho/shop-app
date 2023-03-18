@@ -27,9 +27,13 @@ import OrderDetail from "./components/order/OrderDetail";
 // Admin
 import Dashboard from "./components/admin/Dashboard";
 import ProductList from "./components/admin/ProductList";
+import NewProduct from "./components/admin/NewProduct";
+import { useSelector } from "react-redux";
 
 function App() {
   const [stripeAPIKeyClient, setStripeAPIKey] = useState("");
+
+  const { loading, user } = useSelector((state) => state.auth);
 
   useEffect(() => {
     store.dispatch(loadUser());
@@ -149,8 +153,16 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route
+          path="/admin/product"
+          element={
+            <ProtectedRoute isAdmin={true}>
+              <NewProduct />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
-      <Footer />
+      {!loading && user && user.role !== "admin" && <Footer />}
     </Router>
   );
 }

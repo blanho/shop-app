@@ -28,6 +28,8 @@ const errorHandling = (err, req, res, next) => {
     errors.statusCode = 404;
   }
 
+  console.log(errors);
+
   if (process.env.NODE_ENV === "DEVELOPMENT") {
     return res.status(errors.statusCode).json({
       sucess: false,

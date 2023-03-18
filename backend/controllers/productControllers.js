@@ -2,9 +2,33 @@ const { NotFound, BadRequest } = require("../errors");
 const Product = require("../models/product");
 const catchAsyncErrors = require("../utils/catchAsyncErrors");
 const APIFeature = require("../utils/apiFeatures");
+const cloudinary = require("cloudinary").v2;
 
 // Create new product => [POST] /api/v1/admin/products/new
 exports.newProduct = catchAsyncErrors(async (req, res, next) => {
+  if (!req.body.images) {
+    return res.status(400).json({ message: "Please provide the image" });
+  }
+  let images = [];
+  if (typeof req.body.images === "string") {
+    images.push(req.body.images);
+  } else {
+    images = req.body.images;
+  }
+
+  let imagesLinks = [];
+
+  for (let i = 0; i < images.length; i++) {
+    const result = await cloudinary.uploader.upload(images[i], {
+      folder: "shop/products",
+    });
+    imagesLinks.push({
+      public_id: result.public_id,
+      url: result.secure_url,
+    });
+  }
+
+  req.body.images = imagesLinks;
   req.body.user = req.user.id;
   const product = await Product.create(req.body);
 

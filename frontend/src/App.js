@@ -24,6 +24,9 @@ import Payment from "./components/cart/Payment";
 import OrderSuccess from "./components/cart/OrderSuccess";
 import ListOrders from "./components/order/ListOrders";
 import OrderDetail from "./components/order/OrderDetail";
+// Admin
+import Dashboard from "./components/admin/Dashboard";
+import ProductList from "./components/admin/ProductList";
 
 function App() {
   const [stripeAPIKeyClient, setStripeAPIKey] = useState("");
@@ -33,7 +36,7 @@ function App() {
 
     async function getStripeKey() {
       const { data } = await axios.get("/api/v1/stripeAPI");
-      console.log(data);
+
       setStripeAPIKey(data.stripeAPIKey);
     }
     getStripeKey();
@@ -125,6 +128,24 @@ function App() {
           element={
             <ProtectedRoute>
               <UpdatePassword />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Admin */}
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute isAdmin={true}>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/products"
+          element={
+            <ProtectedRoute isAdmin={true}>
+              <ProductList />
             </ProtectedRoute>
           }
         />

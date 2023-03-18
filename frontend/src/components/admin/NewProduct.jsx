@@ -18,8 +18,6 @@ const NewProduct = () => {
   const [images, setImages] = useState([]);
   const [imagesPreview, setImagesPreview] = useState([]);
 
-  console.log(category);
-
   const alert = useAlert();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -27,19 +25,6 @@ const NewProduct = () => {
   const { loading, error, success } = useSelector(
     (state) => state.newAdminProduct
   );
-
-  useEffect(() => {
-    if (error) {
-      alert.error(error);
-      dispatch(clearErrors());
-    }
-
-    if (success) {
-      navigate("/admin/products");
-      alert.success("Product created successfully");
-      dispatch({ type: NEW_PRODUCT_RESET });
-    }
-  }, [dispatch, alert, error, success, navigate]);
 
   const categories = [
     "Electronics",
@@ -56,6 +41,19 @@ const NewProduct = () => {
     "Home",
   ];
 
+  useEffect(() => {
+    if (error) {
+      alert.error(error);
+      dispatch(clearErrors());
+    }
+
+    if (success) {
+      navigate("/admin/products");
+      alert.success("Product created successfully");
+      dispatch({ type: NEW_PRODUCT_RESET });
+    }
+  }, [dispatch, alert, error, success, navigate]);
+
   const submitHandler = (e) => {
     e.preventDefault();
     const formData = new FormData();
@@ -70,7 +68,6 @@ const NewProduct = () => {
       formData.append("images", image);
     });
 
-    console.log(formData);
     dispatch(newAdminProduct(formData));
   };
 

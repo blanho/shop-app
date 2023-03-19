@@ -1,4 +1,7 @@
 import {
+  ALL_ORDER_FAIL,
+  ALL_ORDER_REQUEST,
+  ALL_ORDER_SUCCESS,
   CLEAR_ERROR,
   CREATE_ORDER_FAIL,
   CREATE_ORDER_REQUEST,
@@ -80,6 +83,35 @@ export const orderDetailReducer = (state = { order: {} }, action) => {
         order: action.payload,
       };
     case ORDER_DETAIL_FAIL:
+      return {
+        loading: false,
+        error: action.payload,
+      };
+    case CLEAR_ERROR:
+      return {
+        ...state,
+        error: null,
+      };
+    default:
+      return state;
+  }
+};
+
+export const allOrdersReducer = (state = { orders: [] }, action) => {
+  switch (action.type) {
+    case ALL_ORDER_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case ALL_ORDER_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        orders: action.payload.orders,
+        totalAmount: action.payload.totalAmount,
+      };
+    case ALL_ORDER_FAIL:
       return {
         loading: false,
         error: action.payload,

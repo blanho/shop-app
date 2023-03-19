@@ -30,6 +30,7 @@ import ProductList from "./components/admin/ProductList";
 import NewProduct from "./components/admin/NewProduct";
 import { useSelector } from "react-redux";
 import UpdateProduct from "./components/admin/UpdateProduct";
+import OrderList from "./components/admin/OrderList";
 
 function App() {
   const [stripeAPIKeyClient, setStripeAPIKey] = useState("");
@@ -167,6 +168,14 @@ function App() {
           element={
             <ProtectedRoute isAdmin={true}>
               <NewProduct />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/orders"
+          element={
+            <ProtectedRoute isAdmin={true}>
+              <OrderList />
             </ProtectedRoute>
           }
         />

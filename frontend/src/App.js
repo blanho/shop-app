@@ -24,16 +24,24 @@ import Payment from "./components/cart/Payment";
 import OrderSuccess from "./components/cart/OrderSuccess";
 import ListOrders from "./components/order/ListOrders";
 import OrderDetail from "./components/order/OrderDetail";
+// Admin
+import Dashboard from "./components/admin/Dashboard";
+import ProductList from "./components/admin/ProductList";
+import NewProduct from "./components/admin/NewProduct";
+import { useSelector } from "react-redux";
+import UpdateProduct from "./components/admin/UpdateProduct";
 
 function App() {
   const [stripeAPIKeyClient, setStripeAPIKey] = useState("");
+
+  const { loading, user } = useSelector((state) => state.auth);
 
   useEffect(() => {
     store.dispatch(loadUser());
 
     async function getStripeKey() {
       const { data } = await axios.get("/api/v1/stripeAPI");
-      console.log(data);
+
       setStripeAPIKey(data.stripeAPIKey);
     }
     getStripeKey();
@@ -128,8 +136,42 @@ function App() {
             </ProtectedRoute>
           }
         />
+
+        {/* Admin */}
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute isAdmin={true}>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/products"
+          element={
+            <ProtectedRoute isAdmin={true}>
+              <ProductList />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/products/:id"
+          element={
+            <ProtectedRoute isAdmin={true}>
+              <UpdateProduct />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/product"
+          element={
+            <ProtectedRoute isAdmin={true}>
+              <NewProduct />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
-      <Footer />
+      {!loading && user && user.role !== "admin" && <Footer />}
     </Router>
   );
 }

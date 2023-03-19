@@ -7,6 +7,7 @@ const {
   getSingProduct,
   updateProduct,
   deleteProduct,
+  getAdminProducts,
 } = require("../controllers/productControllers");
 
 const { isAuthenticatedUser, authorizedRoles } = require("../middleware/auth");
@@ -24,5 +25,9 @@ router
   .route("/admin/products/:id")
   .put(isAuthenticatedUser, authorizedRoles("admin"), updateProduct)
   .delete(isAuthenticatedUser, authorizedRoles("admin"), deleteProduct);
+
+router
+  .route("/admin/products")
+  .get(isAuthenticatedUser, authorizedRoles("admin"), getAdminProducts);
 
 module.exports = router;

@@ -75,7 +75,7 @@ exports.getAllUsers = catchAsyncErrors(async (req, res, next) => {
   });
 });
 
-// Get user details => [GET] /api/v1/admin/user/:id
+// Get user details => [GET] /api/v1/admin/users/:id
 exports.getUserDetail = catchAsyncErrors(async (req, res, next) => {
   const user = await User.findById(req.params.id);
 
@@ -89,7 +89,7 @@ exports.getUserDetail = catchAsyncErrors(async (req, res, next) => {
   });
 });
 
-// Update / Update user profile => [PUT] /api/v1/admin/user/:id
+// Update / Update user profile => [PUT] /api/v1/admin/users/:id
 exports.updateUser = catchAsyncErrors(async (req, res, next) => {
   const newUserData = {
     name: req.body.name,
@@ -116,6 +116,8 @@ exports.deleteUserDetail = catchAsyncErrors(async (req, res, next) => {
   }
 
   // Remove avatar from cloudinary - TODO
+  const image_id = user.avatar.public_id;
+  await cloudinary.uploader.destroy(image_id);
 
   await user.deleteOne();
 

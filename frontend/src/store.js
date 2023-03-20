@@ -8,17 +8,25 @@ import {
   newProductAdminReducer,
   deleteAdminProduct,
   updateAdminProductReducer,
+  productReviewsReducer,
+  deleteReviewReducer,
 } from "./reducers/productReducers";
 import {
+  allUsersReducer,
   authReducer,
+  deleteUserReducer,
   forgotPasswordReducer,
+  getUserDetails,
+  updateUserReducer,
   userReducer,
 } from "./reducers/userReducers";
 import { cartReducer } from "./reducers/cartReducers";
 import {
+  allOrdersReducer,
   myOrdersReducer,
   newOrderReducer,
   orderDetailReducer,
+  orderReducer,
 } from "./reducers/orderReducers";
 
 const reducer = combineReducers({
@@ -35,6 +43,14 @@ const reducer = combineReducers({
   newAdminProduct: newProductAdminReducer,
   deleteAdminProduct: deleteAdminProduct,
   updateAdminProduct: updateAdminProductReducer,
+  allOrders: allOrdersReducer,
+  order: orderReducer,
+  allUsers: allUsersReducer,
+  updateUser: updateUserReducer,
+  userDetails: getUserDetails,
+  deleteUser: deleteUserReducer,
+  productReviews: productReviewsReducer,
+  deleteReview: deleteReviewReducer,
 });
 
 let initialState = {

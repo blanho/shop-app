@@ -30,6 +30,11 @@ import ProductList from "./components/admin/ProductList";
 import NewProduct from "./components/admin/NewProduct";
 import { useSelector } from "react-redux";
 import UpdateProduct from "./components/admin/UpdateProduct";
+import OrderList from "./components/admin/OrderList";
+import ProccessOrder from "./components/admin/ProccessOrder";
+import UserList from "./components/admin/UserList";
+import UpdateUser from "./components/admin/UpdateUser";
+import ProductReview from "./components/admin/ProductReview";
 
 function App() {
   const [stripeAPIKeyClient, setStripeAPIKey] = useState("");
@@ -167,6 +172,46 @@ function App() {
           element={
             <ProtectedRoute isAdmin={true}>
               <NewProduct />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/orders"
+          element={
+            <ProtectedRoute isAdmin={true}>
+              <OrderList />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/orders/:id"
+          element={
+            <ProtectedRoute isAdmin={true}>
+              <ProccessOrder />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/users"
+          element={
+            <ProtectedRoute isAdmin={true}>
+              <UserList />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/users/:id"
+          element={
+            <ProtectedRoute isAdmin={true}>
+              <UpdateUser />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/reviews"
+          element={
+            <ProtectedRoute isAdmin={true}>
+              <ProductReview />
             </ProtectedRoute>
           }
         />

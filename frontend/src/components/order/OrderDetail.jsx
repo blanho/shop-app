@@ -3,11 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import MetaData from "../layout/MetaData";
 import { useAlert } from "react-alert";
-import {
-  clearErrors,
-  getOrderDetail,
-  myOrders,
-} from "../../actions/orderActions";
+import { clearErrors, getOrderDetail } from "../../actions/orderActions";
 import Loader from "../layout/Loader";
 
 const OrderDetail = () => {

@@ -8,6 +8,9 @@ const morgan = require("morgan");
 const bodyparser = require("body-parser");
 const cloudinary = require("cloudinary").v2;
 const fileUpload = require("express-fileupload");
+const swaggerJsdoc = require("swagger-jsdoc");
+const swaggerUi = require("swagger-ui-express");
+const options = require("./utils/swagger");
 
 // Import all routes
 const productRoutes = require("./routes/productRoutes");
@@ -17,8 +20,14 @@ const orderRoutes = require("./routes/orderRoutes");
 const reviewRoutes = require("./routes/reviewRoutes");
 const paymentRoutes = require("./routes/paymentRoutes");
 
+// Swagger
+const specs = swaggerJsdoc(options);
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
+
+// Middleware
 app.use(express.json());
 app.use(bodyparser.urlencoded({ extended: true }));
+
 app.use(cookieParser());
 app.use(fileUpload());
 app.use(morgan("dev"));
@@ -30,6 +39,7 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
+// Routes
 app.use("/api/v1", authRoutes);
 app.use("/api/v1", productRoutes);
 app.use("/api/v1", userRoutes);

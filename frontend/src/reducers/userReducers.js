@@ -25,6 +25,15 @@ import {
   NEW_PASSWORD_REQUEST,
   NEW_PASSWORD_SUCCESS,
   NEW_PASSWORD_FAIL,
+  ALL_USERS_REQUEST,
+  ALL_USERS_SUCCESS,
+  ALL_USERS_FAIL,
+  UPDATE_USER_REQUEST,
+  UPDATE_USER_SUCCESS,
+  UPDATE_USER_RESET,
+  GET_USER_DETAIL_REQUEST,
+  GET_USER_DETAIL_SUCCESS,
+  GET_USER_DETAIL_FAIL,
 } from "../constants/userConstants";
 
 export const authReducer = (state = { user: {} }, action) => {
@@ -154,6 +163,105 @@ export const forgotPasswordReducer = (state = {}, action) => {
         loading: false,
         error: action.payload,
       };
+    case CLEAR_ERROR:
+      return {
+        ...state,
+        error: null,
+      };
+    default:
+      return state;
+  }
+};
+
+export const allUsersReducer = (state = { users: [] }, action) => {
+  switch (action.type) {
+    case ALL_USERS_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case ALL_USERS_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        users: action.payload,
+      };
+
+    case ALL_USERS_FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+
+    case CLEAR_ERROR:
+      return {
+        ...state,
+        error: null,
+      };
+    default:
+      return state;
+  }
+};
+
+export const getUserDetails = (state = { user: {} }, action) => {
+  switch (action.type) {
+    case GET_USER_DETAIL_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case GET_USER_DETAIL_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        user: action.payload,
+      };
+
+    case GET_USER_DETAIL_FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+
+    case CLEAR_ERROR:
+      return {
+        ...state,
+        error: null,
+      };
+    default:
+      return state;
+  }
+};
+
+export const updateUserReducer = (state = {}, action) => {
+  switch (action.type) {
+    case UPDATE_USER_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case UPDATE_USER_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        isUpdated: action.payload,
+      };
+
+    case ALL_USERS_FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+
+    case UPDATE_USER_RESET:
+      return {
+        ...state,
+        isUpdated: false,
+      };
+
     case CLEAR_ERROR:
       return {
         ...state,

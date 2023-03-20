@@ -10,8 +10,11 @@ import {
   updateAdminProductReducer,
 } from "./reducers/productReducers";
 import {
+  allUsersReducer,
   authReducer,
   forgotPasswordReducer,
+  getUserDetails,
+  updateUserReducer,
   userReducer,
 } from "./reducers/userReducers";
 import { cartReducer } from "./reducers/cartReducers";
@@ -39,6 +42,9 @@ const reducer = combineReducers({
   updateAdminProduct: updateAdminProductReducer,
   allOrders: allOrdersReducer,
   order: orderReducer,
+  allUsers: allUsersReducer,
+  updateUser: updateUserReducer,
+  userDetails: getUserDetails,
 });
 
 let initialState = {

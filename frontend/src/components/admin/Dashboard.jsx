@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { allOrders } from "../../actions/orderActions";
 import { getAdminProducts } from "../../actions/productActions";
+import { allUsers } from "../../actions/userActions";
 import Loader from "../layout/Loader";
 import MetaData from "../layout/MetaData";
 import Sidebar from "./Sidebar";
@@ -12,6 +13,7 @@ const Dashboard = () => {
 
   const { products, loading } = useSelector((state) => state.products);
   const { orders, totalAmount } = useSelector((state) => state.allOrders);
+  const { users } = useSelector((state) => state.allUsers);
 
   let outOfStock = 0;
   products.forEach((product) => {
@@ -23,6 +25,7 @@ const Dashboard = () => {
   useEffect(() => {
     dispatch(getAdminProducts());
     dispatch(allOrders());
+    dispatch(allUsers());
   }, [dispatch]);
   return (
     <Fragment>
@@ -95,7 +98,7 @@ const Dashboard = () => {
                     <div className="card-body">
                       <div className="text-center card-font-size">
                         Users
-                        <br /> <b>45</b>
+                        <br /> <b>{users && users.length}</b>
                       </div>
                     </div>
                     <Link

@@ -8,10 +8,13 @@ import {
   newProductAdminReducer,
   deleteAdminProduct,
   updateAdminProductReducer,
+  productReviewsReducer,
+  deleteReviewReducer,
 } from "./reducers/productReducers";
 import {
   allUsersReducer,
   authReducer,
+  deleteUserReducer,
   forgotPasswordReducer,
   getUserDetails,
   updateUserReducer,
@@ -45,6 +48,9 @@ const reducer = combineReducers({
   allUsers: allUsersReducer,
   updateUser: updateUserReducer,
   userDetails: getUserDetails,
+  deleteUser: deleteUserReducer,
+  productReviews: productReviewsReducer,
+  deleteReview: deleteReviewReducer,
 });
 
 let initialState = {

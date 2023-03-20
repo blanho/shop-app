@@ -7,7 +7,8 @@ import Loader from "../layout/Loader";
 import { MDBDataTable } from "mdbreact";
 
 import Sidebar from "./Sidebar";
-import { allUsers, clearErrors } from "../../actions/userActions";
+import { allUsers, clearErrors, deleteUser } from "../../actions/userActions";
+import { DELETE_USER_RESET } from "../../constants/userConstants";
 
 const UserList = () => {
   const alert = useAlert();
@@ -15,6 +16,7 @@ const UserList = () => {
   const navigate = useNavigate();
 
   const { loading, error, users } = useSelector((state) => state.allUsers);
+  const { isDeleted } = useSelector((state) => state.deleteUser);
 
   useEffect(() => {
     dispatch(allUsers());
@@ -23,7 +25,17 @@ const UserList = () => {
       alert.error(error);
       dispatch(clearErrors());
     }
-  }, [dispatch, alert, error]);
+
+    if (isDeleted) {
+      alert.success("User deleted successfully");
+      navigate("/admin/users");
+      dispatch({ type: DELETE_USER_RESET });
+    }
+  }, [dispatch, alert, error, isDeleted, navigate]);
+
+  const deleteHandler = (id) => {
+    dispatch(deleteUser(id));
+  };
 
   const setUsers = () => {
     const data = {
@@ -69,7 +81,10 @@ const UserList = () => {
             >
               <i className="fa fa-pencil"></i>
             </Link>
-            <button className="btn btn-danger py-1 px-2 ml-2">
+            <button
+              className="btn btn-danger py-1 px-2 ml-2"
+              onClick={() => deleteHandler(user._id)}
+            >
               <i className="fa fa-trash"></i>
             </button>
           </Fragment>

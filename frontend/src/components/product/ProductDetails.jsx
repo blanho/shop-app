@@ -13,6 +13,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import { addItemToCart } from "../../actions/cartActions";
 import { NEW_REVIEW_RESET } from "../../constants/productConstants";
 import ListReviews from "../review/ListReviews";
+import { Slide } from "react-slideshow-image";
+import "react-slideshow-image/dist/styles.css";
 const ProductDetails = ({ match }) => {
   const dispatch = useDispatch();
   let [qty, setQty] = useState(1);
@@ -111,6 +113,20 @@ const ProductDetails = ({ match }) => {
     dispatch(newReview(formData));
   };
 
+  const spanStyle = {
+    padding: "20px",
+    background: "#efefef",
+    color: "#000000",
+  };
+
+  const divStyle = {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundSize: "cover",
+    height: "400px",
+  };
+
   return (
     <Fragment>
       <MetaData title={product.name} />
@@ -119,16 +135,21 @@ const ProductDetails = ({ match }) => {
           <div className="row f-flex justify-content-around">
             {loading && <Loader />}
             <div className="col-12 col-lg-5 img-fluid" id="product_image">
-              <Carousel pause="hover">
+              <Slide>
                 {product.images &&
-                  product.images.map((image) => {
+                  product.images.map((image, index) => {
                     return (
-                      <Carousel.Item key={image.public_id}>
-                        <img src={image.url} alt={product.name} />
-                      </Carousel.Item>
+                      <div key={image.url}>
+                        <div
+                          style={{
+                            ...divStyle,
+                            backgroundImage: `url(${image.url})`,
+                          }}
+                        ></div>
+                      </div>
                     );
                   })}
-              </Carousel>
+              </Slide>
             </div>
 
             <div className="col-12 col-lg-5 mt-5">
@@ -143,7 +164,9 @@ const ProductDetails = ({ match }) => {
                   style={{ width: `${(product.ratings / 5) * 100}%` }}
                 ></div>
               </div>
-              <span id="no_of_reviews">({product.numofReviews} Reviews)</span>
+              <span id="no_of_reviews">
+                ({product && product.reviews.length} Reviews)
+              </span>
 
               <hr />
 
@@ -153,7 +176,9 @@ const ProductDetails = ({ match }) => {
                   -
                 </span>
 
-                <span>{qty}</span>
+                <span style={{ display: "inline-block" }} className="mr-2 ml-2">
+                  {qty}
+                </span>
 
                 <span className="btn btn-primary plus" onClick={increaseQty}>
                   +

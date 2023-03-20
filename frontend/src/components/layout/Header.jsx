@@ -21,7 +21,10 @@ const Header = () => {
         <div className="col-12 col-md-3">
           <div className="navbar-brand">
             <Link to="/">
-              <img src="./images/logo.png" alt="" />
+              <img
+                src="https://raw.githubusercontent.com/blanho/shop-app-ui/6ea4cf5a0b395d288ff9e1f6e34e5dba89a51fcf/src/assets/logo.svg"
+                alt=""
+              />
             </Link>
           </div>
         </div>

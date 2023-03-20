@@ -1,18 +1,16 @@
 import React, { Fragment, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import MetaData from "../layout/MetaData";
 import { useAlert } from "react-alert";
 import Loader from "../layout/Loader";
 import { MDBDataTable } from "mdbreact";
 import { allOrders, clearErrors } from "../../actions/orderActions";
 import Sidebar from "./Sidebar";
-import { DELETE_PRODUCT_RESET } from "../../constants/productConstants";
 
 const OrderList = () => {
   const alert = useAlert();
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const { loading, error, orders } = useSelector((state) => state.allOrders);
 

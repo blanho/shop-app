@@ -13,6 +13,9 @@ import {
   ORDER_DETAIL_FAIL,
   ORDER_DETAIL_REQUEST,
   ORDER_DETAIL_SUCCESS,
+  UPDATE_ORDER_FAIL,
+  UPDATE_ORDER_REQUEST,
+  UPDATE_ORDER_SUCCESS,
 } from "../constants/orderConstants";
 
 export const createOrder = (order) => async (dispatch, getState) => {
@@ -86,4 +89,30 @@ export const clearErrors = () => async (dispatch) => {
   dispatch({
     type: CLEAR_ERROR,
   });
+};
+
+// update order
+export const updateOrder = (id, orderData) => async (dispatch, getState) => {
+  try {
+    dispatch({ type: UPDATE_ORDER_REQUEST });
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+
+    const { data } = await axios.put(
+      `/api/v1/admin/orders/${id}`,
+      orderData,
+      config
+    );
+
+    dispatch({ type: UPDATE_ORDER_SUCCESS, payload: data.success });
+  } catch (error) {
+    dispatch({
+      type: UPDATE_ORDER_FAIL,
+      payload: error.response.data.message,
+    });
+  }
 };

@@ -1,5 +1,5 @@
 ### Demo
-[Click here to see my demo](https://imgur.com/GJSCkf5)
+![](https://github.com/blanho/demo/blob/main/demo.gif)
 ### Features
 
 - **Cloudinary** Streamline media management and improve user experience by automatically delivering images and videos.

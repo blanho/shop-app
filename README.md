@@ -1,4 +1,4 @@
-### Demo
+### Quick Demo: I couldn't upload the large file to github. Feel free to download repo to experience on your own
 ![](https://github.com/blanho/demo/blob/main/demo.gif)
 ### Features
 

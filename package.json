@@ -5,11 +5,8 @@
   "author": "blanho <h.baolan20025@gmail.com>",
   "scripts": {
     "start": "node backend/app.js",
-    "server": "nodemon backend/app.js",
-    "prod": "SET NODE_ENV=PRODUCTION & nodemon backend/app",
-    "client": "yarn start --prefix frontend",
-    "seed": "node backend/utils/seed.js",
-    "dev": "concurrently \"yarn run server\" \"yarn run client\""
+    "dev": "nodemon backend/app.js",
+    "seed": "node backend/utils/seed.js"
   },
   "license": "MIT",
   "dependencies": {
@@ -17,6 +14,7 @@
     "body-parser": "^1.20.2",
     "cloudinary": "^1.35.0",
     "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "express-fileupload": "^1.4.0",
@@ -24,6 +22,7 @@
     "mongoose": "^7.0.1",
     "morgan": "^1.10.0",
     "nodemailer": "^6.9.1",
+    "socket.io": "^4.6.1",
     "stripe": "^11.14.0",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^4.6.2",

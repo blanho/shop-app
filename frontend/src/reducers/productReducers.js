@@ -33,6 +33,7 @@ import {
   DELETE_REVIEW_SUCCESS,
   DELETE_REVIEW_FAIL,
   DELETE_REVIEW_RESET,
+  REVIEW_REALTIME,
 } from "../constants/productConstants";
 
 export const productsReducer = (state = { products: [] }, action) => {
@@ -74,7 +75,10 @@ export const productsReducer = (state = { products: [] }, action) => {
   }
 };
 
-export const productDetailsReducer = (state = { product: {} }, action) => {
+export const productDetailsReducer = (
+  state = { product: { reviews: [] } },
+  action
+) => {
   switch (action.type) {
     case PRODUCTS_DETAILS_REQUEST:
       return {
@@ -83,8 +87,15 @@ export const productDetailsReducer = (state = { product: {} }, action) => {
       };
     case PRODUCTS_DETAILS_SUCCESS:
       return {
+        ...state,
         loading: false,
         product: action.payload.product,
+      };
+
+    case REVIEW_REALTIME:
+      return {
+        ...state,
+        product: action.payload,
       };
     case PRODUCTS_DETAILS_FAIL:
       return {

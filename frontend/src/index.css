@@ -268,7 +268,12 @@ footer {
 }
 
 #product_image {
-  margin-top: 9rem;
+  margin-top: 5rem;
+  height: 500px;
+  object-fit: cover;
+  width: 100%;
+  display: block;
+  justify-content: center;
 }
 
 /* Loader */

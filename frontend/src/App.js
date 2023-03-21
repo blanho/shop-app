@@ -3,6 +3,7 @@ import Footer from "./components/layout/Footer";
 import Home from "./components/Home";
 import ProductDetails from "./components/product/ProductDetails";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Container } from "react-bootstrap";
 import Login from "./components/user/Login";
 import Register from "./components/user/Register";
 import { loadUser } from "./actions/userActions";
@@ -35,10 +36,11 @@ import ProccessOrder from "./components/admin/ProccessOrder";
 import UserList from "./components/admin/UserList";
 import UpdateUser from "./components/admin/UpdateUser";
 import ProductReview from "./components/admin/ProductReview";
+import io from "socket.io-client";
 
 function App() {
   const [stripeAPIKeyClient, setStripeAPIKey] = useState("");
-
+  const [socket, setSocket] = useState(null);
   const { loading, user } = useSelector((state) => state.auth);
 
   useEffect(() => {
@@ -50,6 +52,9 @@ function App() {
       setStripeAPIKey(data.stripeAPIKey);
     }
     getStripeKey();
+    const socket = io();
+    setSocket(socket);
+    return () => socket.close();
   }, []);
   return (
     <Router>
@@ -57,7 +62,10 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} index />
         <Route path="/search/:keyword" element={<Home />} />
-        <Route path="/products/:id" element={<ProductDetails />} />
+        <Route
+          path="/products/:id"
+          element={<ProductDetails socket={socket} />}
+        />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/password/forgot" element={<ForgotPassword />} />

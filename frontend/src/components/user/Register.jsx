@@ -14,7 +14,9 @@ const Register = () => {
 
   const { name, email, password } = user;
   const [avatar, setAvatar] = useState("");
-  const [avatarPreview, setAvatarPreview] = useState("/images/camera.jpg");
+  const [avatarPreview, setAvatarPreview] = useState(
+    "https://res.cloudinary.com/dg6qyxc0a/image/upload/v1678785768/users/yhfzlxfioujjf68lqxus.jpg"
+  );
   const alert = useAlert();
   const dispatch = useDispatch();
   const navigate = useNavigate();

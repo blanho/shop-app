@@ -65,96 +65,87 @@ const Home = () => {
         <Fragment>
           <section id="products" className="container mt-5">
             <div className="row">
-              {keyword ? (
-                <Fragment>
-                  <div className="col-6 col-md-3 mt-5 mb-5">
-                    <div className="px-5">
-                      <Slider
-                        range
-                        className="t-slider"
-                        min={1}
-                        max={1000}
-                        marks={{
-                          1: `$1`,
-                          1000: `$1000`,
-                        }}
-                        defaultValue={[1, 1000]}
-                        value={price}
-                        onChange={(price) => setPrice(price)}
-                      />
-                      <hr className="my-5" />
-                      <div className="mt-5">
-                        <h4 className="mb-3">Categories</h4>
-                        <ul className="pl-0">
-                          {categories.map((category) => {
-                            return (
-                              <li
-                                style={{
-                                  cursor: "pointer",
-                                  listStyleType: "none",
-                                }}
-                                key={category}
-                                onClick={() => setCategory(category)}
-                              >
-                                {category}
-                              </li>
-                            );
-                          })}
-                        </ul>
-                      </div>
-
-                      <hr className="my-3" />
-                      <div className="mt-5">
-                        <h4 className="mb-3">Ratings</h4>
-                        <ul className="pl-0">
-                          {[5, 4, 3, 2, 1].map((rating) => {
-                            return (
-                              <li
-                                style={{
-                                  cursor: "pointer",
-                                  listStyleType: "none",
-                                }}
-                                key={rating}
-                                onClick={() => setRating(rating)}
-                              >
-                                <div className="rating-outer">
-                                  <div
-                                    className="rating-inner"
-                                    style={{ width: `${rating * 20}%` }}
-                                  >
-                                    {rating}
-                                  </div>
-                                </div>
-                              </li>
-                            );
-                          })}
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-6 col-md-9">
-                    <div className="row">
-                      {products &&
-                        products.map((product) => {
+              <Fragment>
+                <div className="col-6 col-md-3 mt-5 mb-5">
+                  <div className="px-5">
+                    <Slider
+                      range
+                      className="t-slider"
+                      min={1}
+                      max={1000}
+                      marks={{
+                        1: `$1`,
+                        1000: `$1000`,
+                      }}
+                      defaultValue={[1, 1000]}
+                      value={price}
+                      onChange={(price) => setPrice(price)}
+                    />
+                    <hr className="my-5" />
+                    <div className="mt-5">
+                      <h4 className="mb-3">Categories</h4>
+                      <ul className="pl-0">
+                        {categories.map((category) => {
                           return (
-                            <Product
-                              key={product._id}
-                              product={product}
-                              col={4}
-                            />
+                            <li
+                              style={{
+                                cursor: "pointer",
+                                listStyleType: "none",
+                              }}
+                              key={category}
+                              onClick={() => setCategory(category)}
+                            >
+                              {category}
+                            </li>
                           );
                         })}
+                      </ul>
+                    </div>
+
+                    <hr className="my-3" />
+                    <div className="mt-5">
+                      <h4 className="mb-3">Ratings</h4>
+                      <ul className="pl-0">
+                        {[5, 4, 3, 2, 1].map((rating) => {
+                          return (
+                            <li
+                              style={{
+                                cursor: "pointer",
+                                listStyleType: "none",
+                              }}
+                              key={rating}
+                              onClick={() => setRating(rating)}
+                            >
+                              <div className="rating-outer">
+                                <div
+                                  className="rating-inner"
+                                  style={{ width: `${rating * 20}%` }}
+                                >
+                                  {rating}
+                                </div>
+                              </div>
+                            </li>
+                          );
+                        })}
+                      </ul>
                     </div>
                   </div>
-                </Fragment>
-              ) : (
-                products &&
-                products.map((product) => {
-                  return (
-                    <Product key={product._id} product={product} col={3} />
-                  );
-                })
-              )}
+                </div>
+                <div className="col-6 col-md-9">
+                  <div className="row">
+                    {products &&
+                      products.map((product) => {
+                        return (
+                          <Product
+                            key={product._id}
+                            product={product}
+                            col={4}
+                          />
+                        );
+                      })}
+                  </div>
+                </div>
+              </Fragment>
             </div>
           </section>
           {resPerPage <= count && (

@@ -125,7 +125,9 @@ exports.deleteOrder = catchAsyncErrors(async (req, res, next) => {
 async function updateStock(id, quantity) {
   const product = await Product.findById(id);
   if (!product) {
-    return next(new NotFound(`Cannot be found product with id: ${id}`));
+    return res
+      .status(404)
+      .json({ message: `Cannot be found product with id: ${id}` });
   }
 
   product.stock = product.stock - quantity;

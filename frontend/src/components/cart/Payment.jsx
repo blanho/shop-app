@@ -14,6 +14,8 @@ import { useAlert } from "react-alert";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { clearErrors, createOrder } from "../../actions/orderActions";
+import { CREATE_ORDER_RESET } from "../../constants/orderConstants";
+import { RESET_CART } from "../../constants/cartConstants";
 
 const Payment = () => {
   const alert = useAlert();
@@ -95,7 +97,9 @@ const Payment = () => {
           };
 
           dispatch(createOrder(order));
-
+          sessionStorage.removeItem("orderInfo");
+          dispatch({ type: RESET_CART });
+          localStorage.removeItem("cartItems");
           navigate("/success");
         } else {
           alert.error("There is some issue");
